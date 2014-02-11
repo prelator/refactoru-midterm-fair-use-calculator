@@ -51,6 +51,10 @@ h1 small {
 	display: none;
 }
 
-.quest-cont p {
+.question p {
 	font-size: 18px;
+}
+
+.btn-info {
+	font-weight: bold;
 }
