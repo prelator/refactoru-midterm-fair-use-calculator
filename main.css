@@ -1,0 +1,56 @@
+body {
+	background-color: #172534;
+}
+
+header h1 {
+	line-height: 20px;
+}
+
+.container {
+	background-color: white;
+	border-radius: 5px;
+	margin-top: 10px;
+	position: relative;
+	padding: 10px;
+	min-width: 320px;
+}
+
+.gray {
+	background-color: #EEEEEE;
+	border-radius: 5px;
+	margin: 10px;
+}
+
+
+.jumbotron {
+	margin: 10px;
+	padding: 20px;
+}
+
+.jumbotron p {
+	font-size: 18px;
+}
+
+h1 small {
+	font-size: 16px;
+}
+
+
+.jumbotron .small {
+	font-size: 14px;
+}
+
+#terms-warning {
+	display: none;
+}
+.progress {
+	margin: 10px;
+}
+
+#questionnaire {
+	display: none;
+}
+
+.quest-cont p {
+	font-size: 18px;
+}

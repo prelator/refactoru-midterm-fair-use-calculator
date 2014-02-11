@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Fair Use Calculator</title>
+        <meta name="description" content="Determine whether your video likely qualifies as fair use and automatically generate YouTube Content ID disputes, appeals, and counter-notices.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Stylesheets -->
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+		<header class="container">
+			<h1>FairUseTube<br><small>Promoting fair use in user-generated video</small></h1>
+		</header>
+		
+		<div id="main-container" class="container">
+			<h2>Fair Use Calculator</h2>
+			<div id="intro" class="jumbotron">
+		        <h2>Welcome to the fair use calculator!</h2>
+		        <p>This app allows you to determine whether the use of copyrighted content in your video likely qualifies as fair use, and helps you generate fair use rationales to dispute copyright claims against your YouTube videos based on fair use.</p> 
+
+		        <p>You will be presented with a series of questions about the use of copyrighted content in your video. Your answers will then be used to generate a composite "fair use score," which indicates the relative strength of a fair use claim for your video. If your fair use score is over 50%, your video is more likely than not to be fair use. The app will then use  your responses to automatically generate a fair use rationale to use in a YouTube Content ID dispute, appeal, or counter-notice. To get started on the questionnaire, click the button below.</p>         
+		           	
+		     	<h3>Legal Disclaimer</h3>
+				<p class="small">This app attempts to quantify a legal test which is fundamentally non-quantifiable. Determining whether a use of copyrighted content qualifies as fair use is a highly inexact process, and when a fair use case goes before a court, the ultimate decision of whether a use qualifies as fair use is largely up to the whim of individual judges. Your "fair use score" is therefore only a very rough estimate of the likelihood that your video could be considered fair use and is NOT definitive. Such estimation can in no way guarantee that a given court would actually find the use to be fair use.</p>
+				
+				<p class="small">The results of this questionnaire are therefore <strong>NOT TO BE CONSIDERED LEGAL ADVICE</strong>. They are merely a guide to help you determine whether a fair use dispute for your video could be justified. The legal standard for a DMCA counter-notice is that the creator must have a "good faith belief" that their video is not infringing in order to file a counter-notice. This app can only assist you in formulating a "good faith belief" that your video could be considered fair use. It cannot guarantee that your video actually is fair use or that a court would find it to be such if it should result in a lawsuit.</p> 
+
+				<p class="small">By using this app, you agree that NO ATTORNEY CLIENT RELATIONSHIP IS CREATED by your use of this app, and you agree that the author of this app CANNOT BE HELD LIABLE if your video should be found by a court to be an infringement of copyright, or if you are found liable for filing a false counter-notice under the DMCA.</p>
+		 
+		 		<div class="checkbox">
+				    <label>
+				      <input id="agree-terms" type="checkbox"><strong>I agree to the above terms.</strong>
+				    </label>
+				</div>
+				<div id="terms-warning" class="alert alert-danger">
+        			<strong>You must agree to the terms above before proceeding.</strong>
+      			</div>
+				<p><a id="start" class="btn btn-primary btn-lg" role="button">Start questionnaire</a></p>		       
+		    <!-- End intro jumbotron -->
+		    </div> 
+		
+			<div id="questionnaire">
+			<!-- Progress module -->
+				<div id="prog-info">
+					<!--  <script type="text/x-handlebars-template" id="prog-temp">-->		
+						<strong>Questions completed: <span>60%</span></strong>				
+						<div class="progress">
+		       				 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+		      			</div>
+					<!-- </script> -->
+				</div>
+			<!-- Question module -->
+				<div id="question-display" class="quest-cont col-md-6 gray">
+					<script type="text/x-handlebars-template" id="quest-temp">	
+						<div id="{{name}}" class="question">
+							<h3>Question {{number}} of 20 <br><small>{{category}}</small></h3>
+							<p>{{text}}</p>
+							<p>{{#each choices}}
+							<button id="{{this.label}}" class="btn btn-info btn-sm choice" role="button" type="button">{{this.label}}</button>
+							{{/each}}</p>
+						</div>
+					</script>
+				</div>
+
+			<!-- Score module -->
+				<div id="score-display" class="col-md-4 gray">
+				<!--  <script type="text/x-handlebars-template" id="score-temp">-->
+						<h3>Fair Use Score</h3>
+						<p><h4>Overall score: <small><strong><span id="tot-score">75</span>%<strong></small></h4></p>
+						<p><h4>Total Points: <small><strong>{{totalPoints}}<strong></small></h4></p>
+					
+				<!-- </script> -->
+				</div>
+
+			</div>	<!-- End questionnaire -->
+	</div> <!-- End main container -->
+
+
+
+
+			
+	<!-- Scripts -->
+	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js"></script>
+	<script src="app.js"></script>
+    </body>
+</html>
