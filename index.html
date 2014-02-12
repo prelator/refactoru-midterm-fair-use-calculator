@@ -54,12 +54,13 @@
 			<div id="questionnaire">
 			<!-- Progress module -->
 				<div id="prog-info">
-					<!--  <script type="text/x-handlebars-template" id="prog-temp">-->		
-						<strong>Questions completed: 60%</strong>				
+					<script type="text/x-handlebars-template" id="prog-temp">		
+						<strong>Questions completed: {{percentage}}%</strong>				
 						<div class="progress">
-		       				 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+		       				 <div class="progress-bar" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
+		       				 </div>
 		      			</div>
-					<!-- </script> -->
+					</script>
 				</div>
 			<!-- Question module -->
 				<div id="question-display" class="col-md-6 gray">
@@ -68,7 +69,7 @@
 							<h3>Question {{number}}<br><small>{{category}}</small></h3>
 							<p>{{text}}</p>
 							<p>{{#each choices}}
-							<button id="{{this.label}}" class="btn btn-info btn-sm choice" role="button" type="button">{{this.label}}</button>
+							<button id="{{this.label}}" class="btn btn-info btn-sm choice" role="button" type="button">{{this.text}}</button>
 							{{/each}}</p>
 						</div>
 					</script>
@@ -78,8 +79,12 @@
 				<div id="score-display" class="col-md-4 gray">
 					<script type="text/x-handlebars-template" id="score-temp">
 							<h3>Fair Use Score</h3>
-							<p><h4>Overall score: <small><strong><span id="tot-score">75</span>%<strong></small></h4></p>
-							<p><h4>Total points: <small><strong>{{totalPoints}}<strong></small></h4></p>					
+							<p><h4>Overall score: <small><strong>{{percentage}}%<strong></small></h4></p>
+							<p><h4>Total points: <small><strong>{{totalPoints}}<strong></small></h4></p>
+							<p><h4>Purpose & character points: <small><strong>{{purposePoints}}<strong></small></h4></p>
+							<p><h4>Nature of work points: <small><strong>{{naturePoints}}<strong></small></h4></p>
+							<p><h4>Amount & substantiality points: <small><strong>{{amountPoints}}<strong></small></h4></p>
+							<p><h4>Market impact points: <small><strong>{{marketPoints}}<strong></small></h4></p>					
 					</script>
 				</div>
 
