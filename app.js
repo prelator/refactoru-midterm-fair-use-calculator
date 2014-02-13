@@ -2,6 +2,26 @@ $(document).ready(function(){
 	//========== Bootstrap Options ==================
 	$('.alert').alert();
 
+	$('#dispute a').click(function(e){
+		e.preventDefault();
+		$(this).tab('show');
+	});
+
+	$('#appeal a').click(function(e){
+		e.preventDefault();
+		$(this).tab('show');
+	});
+
+	$('#web-notice a').click(function(e){
+		e.preventDefault();
+		$(this).tab('show');
+	});
+
+	$('#email-notice a').click(function(e){
+		e.preventDefault();
+		$(this).tab('show');
+	});
+
 	//========== Global methods =====================
 	Array.prototype.findByName = function(name){
 		for (var i = 0; i < this.length; i++) {
@@ -30,21 +50,11 @@ $(document).ready(function(){
 		var newQ = questionTemplate(questionTree[questionCounter]);
 		$('#question-display').fadeOut('slow', function(){
 			$('#question-display').html(newQ);
-			$('#question-display').fadeIn();
+			$('#question-display').fadeIn('slow');
+			$('#back').show();	
 		});
-		questionCounter++;	
+		questionCounter++;
 	};
-
-	var calcTotalPoints = function(){
-		var pointsArray = [];
-		for (var i = 0; i < answerList.length; i++) {
-			pointsArray.push(answerList[i].points);
-		}
-		var total = pointsArray.reduce(function(a, b){
-			return a + b;
-		});
-		return total;
-	};	
 
 	var getCategoryPoints = function(category){
 		var categoryPoints = [];
@@ -65,12 +75,21 @@ $(document).ready(function(){
 		score.purposePoints = getCategoryPoints("purpose") || 0;
 		score.naturePoints = getCategoryPoints("nature") || 0;
 		score.amountPoints = getCategoryPoints("amount") || 0;
-		score.marketPoints = getCategoryPoints("market") || 0;
+		score.marketPoints = getCategoryPoints("market") * 2 || 0;
 	};
 
+	var calcTotalPoints = function(){
+		var pointsArray = [score.purposePoints, score.naturePoints, score.amountPoints, score.marketPoints];		
+		var total = pointsArray.reduce(function(a, b){
+			return a + b;
+		});
+		return total > 2000 ? 2000 : total;
+	};		
+
 	var updateScore = function(){
-		score.totalPoints = calcTotalPoints();
 		updateCategoryTotals();
+		score.totalPoints = calcTotalPoints();
+		score.percentage = Math.round(score.totalPoints / 2000 * 100);	
 		var scoreBoard = scoreTemplate(score);
 		$('#score-display').html(scoreBoard);
 	};
@@ -86,6 +105,52 @@ $(document).ready(function(){
 		var currentPercent = calcProgress();
 		progress.percentage = currentPercent;
 		$('#prog-info').html(progTemplate(progress));
+	};
+
+	var goBack = function(){
+		if (answerList.length === 1){
+			answerList = [];
+			questionCounter = 0;
+			progress = {percentage: 0};
+			$('#prog-info').html(progTemplate(progress));
+			var newQ = questionTemplate(questionList[0]);
+			$('#question-display').fadeOut('slow', function(){
+				$('#question-display').html(newQ);
+				$('#question-display').fadeIn('slow');
+			});					
+		}
+		if (answerList.length > 1) {
+			var lastIndex = answerList.length-1;
+			answerList.splice(lastIndex, 1);
+			updateScore();
+			updateProgress();
+			questionCounter = answerList.length-1;
+			renderNewQuestion();
+		}		
+	};
+
+	var setScoreAlert = function(){
+		if (score.percentage > 50) {
+			scoreAlert.type = "alert-success";
+			scoreAlert.greeting = "Congratulations!";
+			scoreAlert.message = "Your video probably qualifies as fair use. Disputing the copyright claim against your video is likely justified.";
+		} else {
+			scoreAlert.type = "alert-danger";
+			scoreAlert.greeting = "I'm sorry!";
+			scoreAlert.message = "Your video probably does not qualify as fair use. Disputing the copyright claim against your video is not recommended.";
+		}
+		
+		if (score.percentage > 50 && score.percentage < 60) {
+			scoreAlert.strength = "Based on your score, your fair use claim is relatively weak.";
+		}
+
+		if (score.percentage >= 60 && score.percentage < 70) {
+			scoreAlert.strength = "Based on your score, your fair use claim is moderately strong.";
+		}
+
+		if (score.percentage >= 70) {
+			scoreAlert.strength = "Based on your score, your fair use claim is relatively strong.";
+		}
 	};
 
 	//============= Objects / Constructors ====================
@@ -130,6 +195,13 @@ $(document).ready(function(){
 		marketPoints: 0
 	};
 
+	var scoreAlert = {
+		type: "",
+		greeting: "",
+		message: "",
+		strength: ""
+	};
+
 	var progress = {percentage: 0};
 
 	//================ Question instances ==================
@@ -148,7 +220,7 @@ $(document).ready(function(){
 		"Nature of copyrighted work",
 		"nature",
 		"Was the original copyrighted work creative in nature (song, movie, TV show, videogame, etc.) or factual in nature (news report, historical event, recorded speech, etc.)?",
-		[	new Choice("creative", "Creative", 50),
+		[	new Choice("creative", "Creative", 0),
 			new Choice("factual", "Factual", 100)
 		]
 	);
@@ -159,7 +231,7 @@ $(document).ready(function(){
 		"nature",
 		"Was the original copyrighted work published or unpublished?",
 		[	new Choice("published", "Published", 100),
-			new Choice("unpublished", "Unpublished", 50)
+			new Choice("unpublished", "Unpublished", 0)
 		]
 	);
 
@@ -181,8 +253,8 @@ $(document).ready(function(){
 		"Purpose and charcter of use",
 		"purpose",
 		"Are you directly making money from your video (e.g. ad revenue), or is the video intended for any other commercial purpose (business advertisement, etc.)?",
-		[	new Choice("yes", "Yes", 50),
-			new Choice("no", "No", 100)
+		[	new Choice("yes", "Yes", 0),
+			new Choice("no", "No", 200)
 		]
 	);
 
@@ -191,7 +263,7 @@ $(document).ready(function(){
 		"Purpose and character of use",
 		"purpose",
 		"Does your video include your own direct commentary or criticism on the copyrighted work?",
-		[	new Choice("yes", "Yes", 100),
+		[	new Choice("yes", "Yes", 200),
 			new Choice("no", "No", 0)
 		]
 	);
@@ -201,7 +273,7 @@ $(document).ready(function(){
 		"Purpose and character of use",
 		"purpose",
 		"Is your video a parody (mocking the original copyrighted work), satire (using the copyrighted work for social commentary on an unrelated subject), or neither?",
-		[	new Choice("parody", "Parody", 100),
+		[	new Choice("parody", "Parody", 200),
 			new Choice("satire", "Satire", 0),
 			new Choice("neither", "Neither", 0)
 		]
@@ -212,9 +284,9 @@ $(document).ready(function(){
 		"Purpose and character of use",
 		"purpose",
 		"Does your purpose in using the copyrighted material in your video fall under one of these other categories (choose one)?",
-		[	new Choice("news", "News reporting", 100),
-			new Choice("teaching", "Teaching", 100),
-			new Choice("scholarship", "Scholarship or research", 100),
+		[	new Choice("news", "News reporting", 200),
+			new Choice("teaching", "Teaching", 200),
+			new Choice("scholarship", "Scholarship or research", 200),
 			new Choice("none", "None", 0)
 		]
 	);
@@ -235,7 +307,7 @@ $(document).ready(function(){
 		"compete",
 		"Market impact",
 		"market",
-		"Does your video compete with the original copyrighted work, such that people could watch your video rather than paying for the original or viewing it from authorized sources, and receive the exact same experience? (If your video includes an entire copyrighted song, the answer should probably be yes.)",
+		"Could your video theoretically compete with the original copyrighted work, such that people could watch your video rather than paying for the original or viewing it from authorized sources, and receive the exact same experience? (If your video includes an entire copyrighted song, the answer should probably be yes.)",
 		[	new Choice("yes", "Yes", 0),
 			new Choice("no", "No", 100)
 		]
@@ -245,7 +317,7 @@ $(document).ready(function(){
 		"market_harm",
 		"Market impact",
 		"market",
-		"If people did watch your video instead of paying for the original copyrighted work, would it be likely to significantly harm the value of the original work or substantially reduce the copyright holder's income from the work? (In the case of most YouTube videos, the answer is likely no. If the work is not sold to the general public, the answer would also be no.)",
+		"If people did watch your video instead of paying for the original copyrighted work, would it be likely to significantly harm the value of the original work or substantially reduce the copyright holder's income from the work? (In the case of most YouTube videos, or if the material is not sold to the general public, the answer is likely no.)",
 		[	new Choice("yes", "Yes", -100),
 			new Choice("no", "No", 100)
 		]
@@ -258,6 +330,16 @@ $(document).ready(function(){
 		"Is there a mechanism available for you to secure a license to use the copyrighted material, such that by failing to acquire a license, you are depriving the copyright owner of licensing fees they could otherwise expect to receive? (In the case of material owned by major media companies, likely no.)",
 		[	new Choice("yes", "Yes", -100),
 			new Choice("no", "No", 100)
+		]
+	);
+
+	var promote = new Question(
+		"promote",
+		"Market Impact",
+		"market",
+		"Do you believe your use of the copyrighted material could actually serve to promote awareness of the original and thus have a POSITIVE effect on the market for the original?",
+		[	new Choice("yes", "Yes", 100),
+			new Choice("no", "No", 0)
 		]
 	);
 
@@ -278,7 +360,7 @@ $(document).ready(function(){
 		"Purpose and character of use",
 		"purpose",
 		"Does your video add a new context, meaning, or message to the audio, with the video track providing a visual interpretation of the copyrighted audio (e.g. music video, interpretive dance)?",
-		[	new Choice("yes", "Yes", 100),
+		[	new Choice("yes", "Yes", 200),
 			new Choice("no", "No", 0)
 		]
 	);
@@ -327,17 +409,6 @@ $(document).ready(function(){
 		]
 	);
 
-	var videoDuration = new Question(
-		"duration",
-		"Nature of copyrighted work",
-		"nature",
-		"Was the copyrighted source video a short clip (less than 1 minute) or a longer video?",
-		[	new Choice("clip", "Short clip", 100),
-			new Choice("longer", "Longer video", 0),
-			new Choice("NA", "Not-applicable", 0)
-		]
-	);
-
 	var videoIncidental = new Question(
 		"incidental",
 		"Purpose and character of use",
@@ -353,7 +424,7 @@ $(document).ready(function(){
 		"Purpose and character of use",
 		"purpose",
 		"Does your video add new context or meaning to the copyrighted video by placing it in a compilation alongside similar or contrasting clips?",
-		[	new Choice("yes", "Yes", 100),
+		[	new Choice("yes", "Yes", 200),
 			new Choice("no", "No", 0)
 		]
 	);
@@ -363,7 +434,7 @@ $(document).ready(function(){
 		"Purpose and character of use",
 		"purpose",
 		"Is the copyright claim against video footage that was created in the process of your interaction with a piece of interactive software (e.g. a videogame playthrough or software tutorial)?",
-		[	new Choice("yes", "Yes", 100),
+		[	new Choice("yes", "Yes", 200),
 			new Choice("no", "No", 0)
 		]
 	);
@@ -392,20 +463,49 @@ $(document).ready(function(){
 		if (calcProgress() !== 100){
 			renderNewQuestion();
 		} else {
-			$('#question-display').toggle('slide');
+			triggerCompletion();
 		}
 	});
+
+	$(document).on('click', '.back-question', function() {
+		goBack();
+	});
+
+	//=========== Questionnaire Completion ===================
+
+	var triggerCompletion = function(){
+		setScoreAlert();
+		$('#score-alert-module').html(scoreAlertTemplate(scoreAlert));
+		$('#question-display').toggle('slide', function(){
+			$('#score-alert-module').slideToggle('slow');
+		});
+		if(score.percentage > 50){
+				fairUseSuccess();
+			} else {
+				fairUseFail();
+			}						
+	};
+
+	var fairUseSuccess = function(){
+		$('#score-display').removeClass('alert-info');
+		$('#score-display').addClass('alert-success');
+	};
+
+	var fairUseFail = function(){
+		$('#score-display').removeClass('alert-info');
+		$('#score-display').addClass('alert-danger');		
+	};
 
 
 	//=========== Actions on document ready ==================
 
 	//Master question list
-	var questionList = [typeOfClaim, originalType, originalPublished, videoDuration, amount, commercial, commentary, parody, purpose, alter, audioCentrality, audioContext, audioIncidental, audioRecording, lyricVid, videoSoundtrack, videoIncidental, videoContext, videoInteractive, compete, marketHarm, licensing];
+	var questionList = [typeOfClaim, originalType, originalPublished, amount, commercial, commentary, parody, purpose, alter, audioCentrality, audioContext, audioIncidental, audioRecording, lyricVid, videoSoundtrack, videoIncidental, videoContext, videoInteractive, compete, marketHarm, licensing, promote];
 
 	//Question tree arrays
-	var audioQuestions = [originalType, originalPublished, amount, commercial, commentary, parody, purpose, alter, audioCentrality, audioContext, audioIncidental, audioRecording, lyricVid, compete, marketHarm, licensing];
+	var audioQuestions = [originalType, originalPublished, amount, commercial, commentary, parody, purpose, alter, audioCentrality, audioContext, audioIncidental, audioRecording, lyricVid, compete, marketHarm, licensing, promote];
 	
-	var videoQuestions = [originalType, originalPublished, videoDuration, amount, commercial, commentary, parody, purpose, alter, videoSoundtrack, videoIncidental, videoContext, videoInteractive, compete, marketHarm, licensing];
+	var videoQuestions = [originalType, originalPublished, amount, commercial, commentary, parody, purpose, alter, videoSoundtrack, videoIncidental, videoContext, videoInteractive, compete, marketHarm, licensing, promote];
 
 
 	//Template compilers
@@ -420,6 +520,9 @@ $(document).ready(function(){
 	var progSource = $('#prog-temp').html();
 	var progTemplate = Handlebars.compile(progSource);
 	$('#prog-info').html(progTemplate(progress));
+
+	var scoreAlertSource = $('#score-alert-temp').html();
+	var scoreAlertTemplate = Handlebars.compile(scoreAlertSource);
 
 
 }); //End document ready

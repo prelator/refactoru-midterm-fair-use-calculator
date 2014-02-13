@@ -37,7 +37,7 @@
 				
 				<p class="small">The results of this questionnaire are therefore <strong>NOT TO BE CONSIDERED LEGAL ADVICE</strong>. They are merely a guide to help you determine whether a fair use dispute for your video could be justified. The legal standard for a DMCA counter-notice is that the creator must have a "good faith belief" that their video is not infringing in order to file a counter-notice. This app can only assist you in formulating a "good faith belief" that your video could be considered fair use. It cannot guarantee that your video actually is fair use or that a court would find it to be such if it should result in a lawsuit.</p> 
 
-				<p class="small">By using this app, you agree that NO ATTORNEY CLIENT RELATIONSHIP IS CREATED by your use of this app, and you agree that the author of this app CANNOT BE HELD LIABLE if your video should be found by a court to be an infringement of copyright, or if you are found liable for filing a false counter-notice under the DMCA.</p>
+				<p class="small">By using this app, you agree that <strong>NO ATTORNEY CLIENT RELATIONSHIP IS CREATED</strong> by your use of this app, and you agree that the author of this app <strong>CANNOT BE HELD LIABLE</strong> if your video should be found by a court to be an infringement of copyright, or if you are found liable for filing a false counter-notice under the DMCA.</p>
 		 
 		 		<div class="checkbox">
 				    <label>
@@ -63,7 +63,7 @@
 					</script>
 				</div>
 			<!-- Question module -->
-				<div id="question-display" class="col-md-6 gray">
+				<div id="question-display" class="col-sm-6 gray rounded">
 					<script type="text/x-handlebars-template" id="quest-temp">	
 						<div id="{{name}}" class="question">
 							<h3>Question {{number}}<br><small>{{category}}</small></h3>
@@ -71,26 +71,75 @@
 							<p>{{#each choices}}
 							<button id="{{this.label}}" class="btn btn-info btn-sm choice" role="button" type="button">{{this.text}}</button>
 							{{/each}}</p>
+							<p id="back"><a href="#" class="back-question"><span class="glyphicon glyphicon-arrow-left"></span> Go back</a></p>
 						</div>
 					</script>
 				</div>
-
-			<!-- Score module -->
-				<div id="score-display" class="col-md-4 gray">
-					<script type="text/x-handlebars-template" id="score-temp">
-							<h3>Fair Use Score</h3>
-							<p><h4>Overall score: <small><strong>{{percentage}}%<strong></small></h4></p>
-							<p><h4>Total points: <small><strong>{{totalPoints}}<strong></small></h4></p>
-							<p><h4>Purpose & character points: <small><strong>{{purposePoints}}<strong></small></h4></p>
-							<p><h4>Nature of work points: <small><strong>{{naturePoints}}<strong></small></h4></p>
-							<p><h4>Amount & substantiality points: <small><strong>{{amountPoints}}<strong></small></h4></p>
-							<p><h4>Market impact points: <small><strong>{{marketPoints}}<strong></small></h4></p>					
+			<!-- Score alert module -->
+				<div id="score-alert-module">
+					<script type="text/x-handlebars-template" id="score-alert-temp">
+						<div id="score-alert" class="alert {{type}}">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							<p><strong>{{greeting}}</strong> {{message}}</p>
+							{{#if strength}}<p>{{strength}}</p>{{/if}}
+						</div>
 					</script>
 				</div>
-
+			<!-- Score module -->
+				<div id="score-display" class="col-sm-4 rounded black-text alert-info">
+					<script type="text/x-handlebars-template" id="score-temp">
+							<h3>Fair Use Score: <span class="point-display">{{percentage}}%</span></h3>
+							<p><h4>Total points: <span class="point-display">{{totalPoints}} of 2000</span></h4></p>
+							<p><h4>Purpose & character points: <span class="point-display">{{purposePoints}}</span></h4></p>
+							<p><h4>Nature of work points: <span class="point-display">{{naturePoints}}</span></h4></p>
+							<p><h4>Amount & substantiality points: <span class="point-display">{{amountPoints}}</span></h4></p>
+							<p><h4>Market impact points: <span class="point-display">{{marketPoints}}</span></h4></p>					
+					</script>
+				</div>
 			</div>	<!-- End questionnaire -->
+			<div id="dispute-panel" class = "col-md-6 panel panel-info">
+				<div class="panel-heading">
+              		<h2 class="panel-title black-text">Copyright Dispute Generator</h2>
+            	</div>
+            	<div class="panel-content">
+	            	<p>Now that you have good cause to believe that your video is eligible to claim fair use, here are some tools to help you dispute the copyright claim. YouTube's dispute forms are long and convoluted, and require you to provide a brief explanation for why your video qualifies as fair use. If your explanation isn't good enough, YouTube or the copyright holder might reject your dispute/counter-notice.</p>
+	            	<p>This tool will take your answers to the preceeding questions and automatically generate fair use justifications, which you can cut and paste into YouTube's dispute forms. Click the tabs below to generate fair use rationales for an initial Content ID dispute, a Content ID appeal, or a DMCA counter-notice. For the latter, you have option to either generate text to cut and paste into YouTube's counter-notice webform, or else automatically generate an email counter-notice using the provided form.</p>
+	            	<br>
+					<!-- Nav tabs -->
+					<div id="tab-container">
+						<ul class="nav nav-tabs">
+						  <li class="active"><a href="#dispute-pane" data-toggle="tab">Content ID Dispute</a></li>
+						  <li><a href="#appeal-pane" data-toggle="tab">Content ID Appeal</a></li>
+						  <li class="dropdown">
+						    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						    DMCA Counter-notice<span class="caret"></span>
+						    </a>
+						    <ul class="dropdown-menu">
+						      <li id="web-notice"><a href="#web-notice-pane">Webform</a></li>
+						      <li id="email-notice"><a href="#email-notice-pane">Email</a></li>
+						    </ul>
+						  </li>
+						</ul>
+					</div>
+					<!-- Tab panes -->
+					<div class="tab-content">
+					  <div class="tab-pane active" id="dispute-pane">
+					  	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, modi sapiente eum alias at. Animi, molestias, nisi, impedit ipsam illum tempore officia voluptas perspiciatis ducimus dolorem repellat beatae aliquam omnis?</p>
+					  </div>
+					  <div class="tab-pane" id="appeal-pane">
+					  	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, cupiditate officiis itaque natus perferendis nisi voluptatem. Impedit, et, ipsam eveniet quasi aut accusamus minus recusandae molestiae cupiditate commodi! Perferendis, earum?</p>
+					  </div>
+					  <div class="tab-pane" id="web-notice-pane">
+					  	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis corporis possimus quis. Aspernatur, quos, iusto, dolorem a esse ratione debitis consequuntur perspiciatis perferendis labore ut voluptate impedit nostrum eius voluptatibus.</p>
+					  </div>
+					    <div class="tab-pane" id="email-notice-pane">
+					  	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, repudiandae, rerum commodi sequi inventore enim libero sunt aut dignissimos soluta adipisci ipsam dicta facere repellat maiores eius veniam voluptate blanditiis.</p>
+					  </div>
+					</div>
+				</div>
+			</div>
 	</div> <!-- End main container -->
-
+	
 
 
 

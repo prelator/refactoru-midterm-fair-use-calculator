@@ -17,10 +17,13 @@ header h1 {
 
 .gray {
 	background-color: #EEEEEE;
-	border-radius: 5px;
-	margin: 10px;
 }
 
+.rounded {
+	border-radius: 5px;
+	margin: 10px;
+	padding: 10px;
+}
 
 .jumbotron {
 	margin: 10px;
@@ -51,6 +54,10 @@ h1 small {
 	display: none;
 }
 
+#score-alert-module {
+	display: none;
+}
+
 .question p {
 	font-size: 18px;
 }
@@ -60,7 +67,31 @@ h1 small {
 	letter-spacing: 1.5px;
 }
 
+.point-display {
+	font-size: 0.8em;
+	font-weight: bold;
+}
 
+.black-text {
+	color: #333333;
+}
 
+.question a {
+	text-decoration: none;
+}
 
+#back {
+	display: none;
+}
 
+.tab-pane {
+	background-color: white;
+}
+
+.panel {
+	padding: 0;
+}
+
+.panel-content {
+	padding: 10px;
+}
