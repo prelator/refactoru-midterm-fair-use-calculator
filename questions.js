@@ -1,4 +1,5 @@
 //================ Question instances ==================
+	//Main sequence questions
 	var typeOfClaim = new Question(
 		"type_of_claim",
 		"Preliminary",
@@ -160,7 +161,7 @@
 	);
 
 	var audioIncidental = new Question(
-		"incidental",
+		"audio_incidental",
 		"Purpose and character of use",
 		"purpose",
 		"Did you include the copyrighted audio intentionally, or was it accidentally captured in the background (e.g. videogame music present in a playthrough, music from a stereo captured in a home video)?",
@@ -204,7 +205,7 @@
 	);
 
 	var videoIncidental = new Question(
-		"incidental",
+		"video_incidental",
 		"Purpose and character of use",
 		"purpose",
 		"Did you include the copyrighted visual material intentionally, or was it accidentally captured in the background (i.e. TV playing in home video)?",
