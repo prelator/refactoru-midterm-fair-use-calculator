@@ -160,8 +160,10 @@
 		$('#score-display').addClass('bg-success');
 		$('#open-dispute').show();
 		setLongStatements();
+		setWebformNotice();
 		renderAppeal();
 		renderDispute();
+		renderWebform();
 	};
 
 	//Actions to be completed if fair use fails
@@ -171,7 +173,8 @@
 	};
 
 //============ Dispute text generation ====================
-
+	
+	//Retrieve statements from answerList
 	var getLongStatements = function(category){
 		var statementList = [];
 		for (var i = 0; i < answerList.length; i++) {
@@ -182,6 +185,7 @@
 		return statementList.join(" ");
 	};
 
+	//Set dispute statement strings
 	var setLongStatements = function(){
 		longStatements.purpose = getLongStatements("purpose");
 		longStatements.nature = getLongStatements("nature");
@@ -189,18 +193,7 @@
 		longStatements.market = getLongStatements("market");
 	};
 
-	var renderAppeal = function(){
-		$('#appeal-text').html(appealTemplate(longStatements));
-	};
-
-	var renderDispute = function(){
-		$('#dispute-text').html(disputeTemplate(longStatements));
-	};
-
-	var renderEmailNotice = function(){
-		$('#email-notice-display').html(emailNoticeTemplate(user));
-	};
-
+	//Save user info from form
 	var storeUserInfo = function(){
 		user.name = $('#legalName').val();
 		user.email = $('#emailAddress').val();
@@ -217,7 +210,33 @@
 			$("#show-form").text("Hide form");
 		} else {$("#show-form").text("Show form");
 			}
-		}; 
+	}; 
+
+	//Set text for webform counter-notice
+	var setWebformNotice = function(){
+		if (answerList[4].response === "no") {
+			webformNotice.text = "This video is fair use because it is non-commercial and transformative in nature, uses no more of the original than necessary for its purpose, and does not harm the market for the original work.";
+		} else {
+			webformNotice.text = "This video is fair use because it is transformative in nature, uses no more of the original than necessary for its purpose, adds new meaning, and does not harm the market for the original work.";
+		}
+	};
+
+	//Dispute render functions
+	var renderAppeal = function(){
+		$('#appeal-text').html(appealTemplate(longStatements));
+	};
+
+	var renderDispute = function(){
+		$('#dispute-text').html(disputeTemplate(longStatements));
+	};
+
+	var renderEmailNotice = function(){
+		$('#email-notice-display').html(emailNoticeTemplate(user));
+	};
+
+	var renderWebform = function(){
+		$('#webform-notice-display').html(webformNoticeTemplate(webformNotice));
+	};
 
 //============= Template compilers =========================
 	//Question module
@@ -247,3 +266,7 @@
 	//Email counter-notice text
 	var emailNoticeSource = $('#email-notice-temp').html();
 	var emailNoticeTemplate = Handlebars.compile(emailNoticeSource);
+
+	//Webform counter-notice text
+	var webformNoticeSource = $('#webform-notice-temp').html();
+	var webformNoticeTemplate = Handlebars.compile(webformNoticeSource);

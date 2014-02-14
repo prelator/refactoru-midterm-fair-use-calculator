@@ -68,7 +68,8 @@ h1 small {
 
 .btn-info {
 	margin: 2px;
-	letter-spacing: 1.5px;
+	letter-spacing: 1px;
+	font-weight: bold;
 }
 
 .point-display {
@@ -115,4 +116,8 @@ alert p {
 
 #email-notice-display {
 	display: none;
+}
+
+#compose-email {
+	text-decoration: none;
 }

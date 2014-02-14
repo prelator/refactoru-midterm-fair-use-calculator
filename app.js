@@ -29,7 +29,6 @@ $(document).ready(function(){
 		} else {
 			triggerCompletion();
 		}
-		console.dir(answerList);
 	});
 
 	//Questionnaire back button
@@ -37,37 +36,41 @@ $(document).ready(function(){
 		goBack();
 	});
 
-	//Dispute generator tab click handlers
+//========= Dispute generator tab click handlers ==============
+	//Content ID dispute tab
 	$('#dispute a').click(function(e){
 		e.preventDefault();
 		$(this).tab('show');
 	});
 
+	//Appeal tab
 	$('#appeal a').click(function(e){
 		e.preventDefault();
 		$(this).tab('show');
 	});
 
+	//Webform counter-notice tab
 	$('#web-notice a').click(function(e){
 		e.preventDefault();
 		$(this).tab('show');
 	});
 
+	//Email counter-notice tab
 	$('#email-notice a').click(function(e){
 		e.preventDefault();
 		$(this).tab('show');
 	});
 
-
-	//Email counter-notice click hanlders
+	//Email counter-notice form submit
 	$('#submit-form').click(function(e){
 		e.preventDefault();		
 		storeUserInfo();
 		renderEmailNotice();
 		toggleForm();
-		$('#email-notice-display').slideToggle();
+		$('#email-notice-display').fadeIn('slow');
 	});
 
+	//Toggle form button
 	$("#show-form").click(function(){
 		toggleForm();
 	});
@@ -80,6 +83,5 @@ $(document).ready(function(){
 	$('#score-display').html(scoreTemplate(score));
 
 	$('#prog-info').html(progTemplate(progress));
-
 
 }); //End document ready
