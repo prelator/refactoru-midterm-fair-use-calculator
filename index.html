@@ -82,11 +82,15 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 							<p><strong>{{greeting}}</strong> {{message}}</p>
 							{{#if strength}}<p>{{strength}}</p>{{/if}}
+							<div id="open-dispute">
+								<p>Click the button below to launch a tool to automatically generate fair use arguments to use in disputing the copyright claim on your video.</p>
+								<p><button class="btn btn-primary" data-toggle="modal" data-target=".bs-modal-lg">Generate Dispute</button></p>
+							</div>
 						</div>
-					</script>
+					</script>					
 				</div>
 			<!-- Score module -->
-				<div id="score-display" class="col-sm-4 rounded black-text alert-info">
+				<div id="score-display" class="col-sm-4 rounded bg-info">
 					<script type="text/x-handlebars-template" id="score-temp">
 							<h3>Fair Use Score: <span class="point-display">{{percentage}}%</span></h3>
 							<p><h4>Total points: <span class="point-display">{{totalPoints}} of 2000</span></h4></p>
@@ -97,49 +101,175 @@
 					</script>
 				</div>
 			</div>	<!-- End questionnaire -->
-			<div id="dispute-panel" class = "col-md-6 panel panel-info">
-				<div class="panel-heading">
-              		<h2 class="panel-title black-text">Copyright Dispute Generator</h2>
-            	</div>
-            	<div class="panel-content">
-	            	<p>Now that you have good cause to believe that your video is eligible to claim fair use, here are some tools to help you dispute the copyright claim. YouTube's dispute forms are long and convoluted, and require you to provide a brief explanation for why your video qualifies as fair use. If your explanation isn't good enough, YouTube or the copyright holder might reject your dispute/counter-notice.</p>
-	            	<p>This tool will take your answers to the preceeding questions and automatically generate fair use justifications, which you can cut and paste into YouTube's dispute forms. Click the tabs below to generate fair use rationales for an initial Content ID dispute, a Content ID appeal, or a DMCA counter-notice. For the latter, you have option to either generate text to cut and paste into YouTube's counter-notice webform, or else automatically generate an email counter-notice using the provided form.</p>
-	            	<br>
-					<!-- Nav tabs -->
-					<div id="tab-container">
-						<ul class="nav nav-tabs">
-						  <li class="active"><a href="#dispute-pane" data-toggle="tab">Content ID Dispute</a></li>
-						  <li><a href="#appeal-pane" data-toggle="tab">Content ID Appeal</a></li>
-						  <li class="dropdown">
-						    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-						    DMCA Counter-notice<span class="caret"></span>
-						    </a>
-						    <ul class="dropdown-menu">
-						      <li id="web-notice"><a href="#web-notice-pane">Webform</a></li>
-						      <li id="email-notice"><a href="#email-notice-pane">Email</a></li>
-						    </ul>
-						  </li>
-						</ul>
-					</div>
-					<!-- Tab panes -->
-					<div class="tab-content">
-					  <div class="tab-pane active" id="dispute-pane">
-					  	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, modi sapiente eum alias at. Animi, molestias, nisi, impedit ipsam illum tempore officia voluptas perspiciatis ducimus dolorem repellat beatae aliquam omnis?</p>
-					  </div>
-					  <div class="tab-pane" id="appeal-pane">
-					  	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, cupiditate officiis itaque natus perferendis nisi voluptatem. Impedit, et, ipsam eveniet quasi aut accusamus minus recusandae molestiae cupiditate commodi! Perferendis, earum?</p>
-					  </div>
-					  <div class="tab-pane" id="web-notice-pane">
-					  	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis corporis possimus quis. Aspernatur, quos, iusto, dolorem a esse ratione debitis consequuntur perspiciatis perferendis labore ut voluptate impedit nostrum eius voluptatibus.</p>
-					  </div>
-					    <div class="tab-pane" id="email-notice-pane">
-					  	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, repudiandae, rerum commodi sequi inventore enim libero sunt aut dignissimos soluta adipisci ipsam dicta facere repellat maiores eius veniam voluptate blanditiis.</p>
-					  </div>
-					</div>
-				</div>
-			</div>
+			
 	</div> <!-- End main container -->
-	
+
+	<button class="btn btn-primary" data-toggle="modal" data-target=".bs-modal-lg">Generate Dispute</button>
+
+	<!-- Counter-notice generator modal -->
+	<div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="disputeGeneratorModal" aria-hidden="true">
+	  <div class="modal-dialog modal-lg">
+	    <div class="modal-content panel panel-info gray">
+			<div class="panel-heading">
+          		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          		<h2 class="panel-title black-text">Copyright Dispute Generator</h2>              		
+        	</div>
+        	<div class="panel-content">
+            	<p>Now that you have good cause to believe that your video is eligible to claim fair use, here are some tools to help you dispute the copyright claim. </p>
+            	<p>This tool will take your answers to the preceeding questions and automatically generate arguments for why your video qualifies as fair use, which you can cut and paste into YouTube's dispute forms.</p>
+            	<h5>Directions</h5>
+            	<p>Click the tabs below to generate fair use rationales for an initial Content ID dispute, a Content ID appeal, or a DMCA counter-notice. For the latter, you have option to either generate text to cut and paste into YouTube's counter-notice webform, or else automatically generate an email counter-notice using the provided form.</p>
+            	<br>
+				<!-- Nav tabs -->
+				<div id="tab-container">
+					<ul class="nav nav-tabs">
+					  <li class="active"><a href="#dispute-pane" data-toggle="tab">Content ID Dispute</a></li>
+					  <li><a href="#appeal-pane" data-toggle="tab">Content ID Appeal</a></li>
+					  <li class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					    DMCA Counter-notice<span class="caret"></span>
+					    </a>
+					    <ul class="dropdown-menu">
+					      <li id="web-notice"><a href="#web-notice-pane">Webform</a></li>
+					      <li id="email-notice"><a href="#email-notice-pane">Email</a></li>
+					    </ul>
+					  </li>
+					</ul>
+				</div>
+				<!-- Tab panes -->
+				<div class="tab-content">
+				  <div class="tab-pane active" id="dispute-pane">
+				  	<h4>Instructions</h4>
+				  	<p>If you wish to file an initial dispute against a Content ID claim on your video:</p>
+				  	<ol>
+				  		<li>Click on the "Matched third party content" link below your video in your Video Manager.</li>
+				  		<li>Click the "dispute" button at the bottom of the page.</li>
+				  		<li>Select "My use of the content meets the legal requirements for fair use or fair dealing under applicable copyright laws," and click "continue".</li>
+				  		<li>Check "I am sure" and click "continue."</li>
+				  		<li>Cut and paste the text below into the "Reason for dispute" text-area box.</li>
+				  		<li>Check the box for "I have a good faith belief...", enter your name, and click "continue."</li>
+				  		<li>On the dispute summary page, click the "continue" button, and then click "ok" when it asks you to confirm.</li>			  		
+				  	</ol>
+			
+				  	<div id="dispute-text">
+					  	<script type="text/x-handlebars-template" id="dispute-temp"> 
+					  		<h5>Reason for dispute text:</h5>
+					  		 <div class="well">
+						  		<p>The use of the copyrighted material in this video qualifies as fair use for the following reasons:</p>
+						  		<p>{{purpose}}</p>
+						  		<p>{{amount}}</p>
+						  		<p>{{market}}</p>
+					  		</div>
+					  	</script>
+				  	</div>
+				  </div>
+				  <div class="tab-pane" id="appeal-pane">
+				  	<h4>Instructions</h4>
+				  	<p>If you wish to appeal a rejected Content ID dispute:</p>
+				  	<ol>
+				  		<li>Click on the "Matched third party content" link below your video in your Video Manager.</li>
+				  		<li>Click the "Appeal" button, and then click "continue."</li>
+				  		<li>Select the claim to appeal and click "continue."</li>
+				  		<li>Fill out your contact information, then paste the text below into the corresponding text-area boxes.</li>
+				  		<li>Check the acknowledgment, type your name, and click "continue."</li>
+				  		<li>Click through any final confirmation dialogues required to submit your appeal.</li>
+				  	</ol>
+				  	<div id="appeal-text">
+					  	<script type="text/x-handlebars-template" id="appeal-temp">	
+					  		<h5>Purpose and character of use:</h5>
+								<div id ="appeal-purpose" class="well">
+									<p>{{purpose}}</p>
+								</div>
+						  	<h5>Nature of copyrighted work:</h5>
+								<div id="appeal-nature" class="well">
+									<p>{{nature}}</p>
+								</div>
+						  	<h5>The amount and substantiality of the portion used:</h5>
+								<div id="appeal-amount" class="well">
+									<p>{{amount}}</p>
+								</div>
+						  	<h5>The effect of the use upon the potential market for, or value of, the original work:</h5>
+						  		<div id="appeal-market" class="well">
+						  			<p>{{market}}</p>
+						  		</div>
+					 	</script>
+				 	</div>
+				 </div>
+				  <div class="tab-pane" id="web-notice-pane">
+				  	<h4>Instructions</h4>
+				  	<p>If you wish to file a DMCA counter-notice using YouTube's webform:</p>
+				  	<ol>
+				  		<li>Click the "Submit counter-notification" link below your video in your Video Manager.</li>
+				  		<li>Fill out all the required contact information.</li>
+				  		<li>Cut and paste the text below into the "Why are you filing this counter-notification?" text-area box. You may optionally paste the same text in the text-area for sending a message to the copyright claimant.</li>
+				  		<li>Check the boxes for the required statements and click "Submit."</li>
+				  	</ol>
+				  	<h5>Counter-notice text:</h5>
+				  		<div class="well">...</div>
+				  </div>
+				  <div class="tab-pane" id="email-notice-pane">
+					<h4>Instructions</h4>
+					<p>If you do not wish to use YouTube's webform to submit a counter-notice, you can submit one via email to <a href="mailto:copyright@youtube.com">copyright@youtube.com</a>.</p> 
+					<p>To create an email counter-notice, please fill out the following form (your information will not be saved) and click "submit." You can then either cut and paste the provided text into a new email, or click the "Generate email" button to generate a pre-filled email draft in your default email client.
+					<button type="button" class="btn btn-info btn-xs" id="show-form">Hide form</button></p> 
+
+					<form role="form" id="counter-notice-form" class="gray rounded">
+					  <h4>Counter-notice Form</h4>
+						<p>Enter your contact information for the counter-notice:</p>
+					  <div class="form-group col-sm-6">
+					    <label for="legalName">Legal name</label>
+					    <input type="text" class="form-control" id="legalName" placeholder="Enter your full legal name">
+					  </div>
+					  <div class="form-group col-sm-6">
+					    <label for="emailAddress">Email address</label>
+					    <input type="email" class="form-control" id="emailAddress" placeholder="Enter your YouTube account email address">
+					  </div>
+					  <div class="form-group col-sm-6">
+					    <label for="address">Physical Address</label>
+					    <textarea id="address" class="form-control" rows="3" placeholder="Enter your physical residential address"></textarea>
+					  </div>
+					   <div class="form-group col-sm-6">
+					    <label for="phone">Phone Number</label>
+					    <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+					  </div>
+					  <div class="form-group col-sm-6">
+					    <label for="videoURL">Video URL</label>
+					    <input type="url" class="form-control" id="videoURL" placeholder="Enter the URL of the video">
+					  </div>
+					  <button type="button" class="btn btn-primary" id="submit-form">Submit</button>
+					  <button type="reset" class="btn btn-danger">Reset</button>
+					</form>
+
+					<div id="email-notice-display">
+					  <script type="text/x-handlebars-template" id="email-notice-temp"> 
+					  	<h4>Email counter-notice text:<h4>
+					  	 <div id="email-notice-text" class="well">
+				  			<p>YOUTUBE DMCA COMPLAINTS DEPARTMENT:</p>
+				  			<p>Please accept the following DMCA counter-notification. All required information is below.</p>
+				  			<p>1. Full legal name: {{name}}</p>
+							<p>2. Email address: {{email}}</p>
+							<p>3. Physical address: {{address}}</p>
+							<p>4. Telephone number: {{phone}}</p>
+							<p>5. Video URL: {{url}}</p>
+				  			<p>REASON FOR COUNTER-NOTIFICATION:</p>		
+					  		<p>The use of the copyrighted material in this video qualifies as fair use for the following reasons:</p>
+					  		<p>{{rationale.purpose}}</p>
+					  		<p>{{rationale.amount}}</p>
+					  		<p>{{rationale.market}}</p>
+					  		<p>REQUIRED STATEMENTS:</p>
+					  		<p>I consent to the jurisdiction of the Federal District Court for the district in which my address is located, or if my address is outside of the United States, the judicial district in which YouTube is located, and will accept service of process from the claimant.</p>
+					  		<p>I swear, under penalty of perjury, that I have a good faith belief that the material was removed or disabled as a result of a mistake or misidentification of the material to be removed or disabled.</p>
+					  		<p>DIGITAL SIGNATURE: {{name}}</p>
+					  	</div>
+					  </script>
+				  	</div>
+				 </div>
+			   </div>
+			</div>				
+	    </div>
+	  </div>
+	</div>
+
 
 
 
@@ -148,6 +278,9 @@
 	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js"></script>
+	<script src="globals.js"></script>
+	<script src="objects.js"></script>
+	<script src="questions.js"></script>
 	<script src="app.js"></script>	
     </body>
 </html>
