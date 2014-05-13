@@ -1,4 +1,4 @@
-//========== Global methods =====================
+//==================== Global methods =====================================
   Array.prototype.findByName = function(name){
     for (var i = 0; i < this.length; i++) {
       if (this[i].name === name) {
@@ -7,9 +7,7 @@
     }
   };
 
-
 // ===================== Object constructors ================================
-
 
   //Question constructor
   var Question = function(name, category, catLabel, text, choices){
@@ -289,7 +287,7 @@
 //========= Master question list =====================
 	var questionList = [typeOfClaim, originalType, originalPublished, amount, commercial, commentary, parody, purpose, alter, audioCentrality, audioContext, audioIncidental, audioRecording, lyricVid, videoSoundtrack, videoIncidental, videoContext, videoInteractive, compete, marketHarm, licensing, promote];
 
-//========== Question tree arrays ======================
+//========== Question tree arrays ====================
 	var audioQuestions = [originalType, originalPublished, amount, commercial, commentary, parody, purpose, alter, audioCentrality, audioContext, audioIncidental, audioRecording, lyricVid, compete, marketHarm, licensing, promote];
 	
 	var videoQuestions = [originalType, originalPublished, amount, commercial, commentary, parody, purpose, alter, videoSoundtrack, videoIncidental, videoContext, videoInteractive, compete, marketHarm, licensing, promote];

@@ -62,17 +62,15 @@
            </div>
          </div>
          <!-- Question module -->
-         <div id="question-display" class="col-sm-6 gray rounded">
-          
-            <div id="{{q.name}}" class="question">
-              <h3>Question {{question.number}}<br><small>{{question.category}}</small></h3>
-              <p>{{question.text}}</p>
-              <p>
-                <button ng-repeat="choice in question.choices" id="{{choice.label}}" class="btn btn-info btn-sm choice" role="button" type="button" ng-click="answerClick(choice.label, question.name)">{{choice.text}}</button>
-              </p>
-                <p id="back"><a href="#" class="back-question" ng-click="goBack()"><span class="glyphicon glyphicon-arrow-left"></span> Go back</a></p>
-              </div>
-           
+         <div id="question-display" class="col-sm-6 gray rounded">          
+          <div id="{{q.name}}" class="question">
+            <h3>Question {{question.number}}<br><small>{{question.category}}</small></h3>
+            <p>{{question.text}}</p>
+            <p>
+              <button ng-repeat="choice in question.choices" id="{{choice.label}}" class="btn btn-info btn-sm choice" role="button" type="button" ng-click="answerClick(choice.label, question.name)">{{choice.text}}</button>
+            </p>
+              <p id="back"><a href="#" class="back-question" ng-click="goBack()"><span class="glyphicon glyphicon-arrow-left"></span> Go back</a></p>
+            </div>           
           </div>
           <!-- Score alert module -->
           <div id="score-alert-module">
