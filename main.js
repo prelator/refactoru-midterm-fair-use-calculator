@@ -1,6 +1,6 @@
 var fairuseApp = angular.module('fairuseApp', []);
 
-fairuseApp.controller('questionCtrl', ['$scope', function ($scope) {
+fairuseApp.controller('appCtrl', ['$scope', function ($scope) {
   
 
 //================= Question module ==================
@@ -23,8 +23,8 @@ fairuseApp.controller('questionCtrl', ['$scope', function ($scope) {
     questionTree[questionCounter].number = answerList.length+1;
     var newQ = questionTree[questionCounter];
     $scope.question = newQ;
-    $('#back').show();  
     questionCounter++;
+    $('#back').show(); 
   };
 
   //Go back to previous question and reverse previous question actions
@@ -123,7 +123,7 @@ fairuseApp.controller('questionCtrl', ['$scope', function ($scope) {
     }
   };
   
-  //=========== Questionnaire Completion ===================
+//=========== Questionnaire Completion ===================
 
   //Completion trigger function
   var triggerCompletion = function(){
@@ -145,9 +145,6 @@ fairuseApp.controller('questionCtrl', ['$scope', function ($scope) {
     $('#open-dispute').show();
     setLongStatements();
     setWebformNotice();
-    renderAppeal();
-    renderDispute();
-    renderWebform();
   };
 
   //Actions to be completed if fair use fails
@@ -156,6 +153,62 @@ fairuseApp.controller('questionCtrl', ['$scope', function ($scope) {
     $('#score-display').addClass('bg-danger');    
   };
 
+//============ Counter-notice Generation Module ===================
 
+  //User info object instantiation
+  $scope.user = {
+    name: "",
+    email: "",
+    address: "",
+    phone: "",
+    url: "",
+    rationale: {}
+  };
+
+  //Dispute statements object instantiation
+  $scope.longStatements = {
+    purpose: "",
+    nature: "",
+    amount: "",
+    market: ""
+  };
+
+  //Webform notice text object instantiation
+  $scope.webformNotice = {
+    text: ""
+  };
+
+  //User form submission handler
+  $scope.noticeFormSubmit = function() {
+    storeUserInfo();
+    toggleForm();
+    showEmailNotice();
+  };
+
+  //Set dispute statement strings
+  var setLongStatements = function(){
+    $scope.longStatements.purpose = getLongStatements("purpose");
+    $scope.longStatements.nature = getLongStatements("nature");
+    $scope.longStatements.amount = getLongStatements("amount");
+    $scope.longStatements.market = getLongStatements("market");
+  };
+
+  //Set text for webform counter-notice
+  var setWebformNotice = function(){
+    if (answerList[4].response === "no") {
+      $scope.webformNotice.text = "This video is fair use because it is non-commercial and transformative in nature, uses no more of the original than necessary for its purpose, and does not harm the market for the original work.";
+    } else {
+      $scope.webformNotice.text = "This video is fair use because it is transformative in nature, uses no more of the original than necessary for its purpose, adds new meaning, and does not harm the market for the original work.";
+    }
+  };
+
+  //Save user info from form
+  var storeUserInfo = function(){
+    $scope.user.name = $scope.userForm.legalName;
+    $scope.user.email = $scope.userForm.emailAddress;
+    $scope.user.address = $scope.userForm.address;
+    $scope.user.phone = $scope.userForm.phone;
+    $scope.user.url = $scope.userForm.videoURL;
+  };
 
 }]);

@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="main.css">
   </head>
-  <body>
+  <body ng-controller="appCtrl">
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
@@ -52,7 +52,7 @@
         </div> <!-- End intro jumbotron -->
 
       <!-- MAIN QUESTIONNAIRE -->
-        <div id="questionnaire" ng-controller="questionCtrl">
+        <div id="questionnaire">
           <!-- Progress module -->
           <div id="prog-info">        
             <strong>Questions completed: {{progress}}%</strong>       
@@ -142,16 +142,14 @@
                     <li>Check the box for "I have a good faith belief...", enter your name, and click "continue."</li>
                     <li>On the dispute summary page, click the "continue" button, and then click "ok" when it asks you to confirm.</li>           
                   </ol>
-                  <div id="dispute-text">
-                    <script type="text/x-handlebars-template" id="dispute-temp"> 
-                      <h5>Reason for dispute text:</h5>
-                      <div class="well">
-                        <p>The use of the copyrighted material in this video qualifies as fair use for the following reasons:</p>
-                        <p>{{purpose}}</p>
-                        <p>{{amount}}</p>
-                        <p>{{market}}</p>
-                      </div>
-                    </script>
+                  <div id="dispute-text">              
+                    <h5>Reason for dispute text:</h5>
+                    <div class="well">
+                      <p>The use of the copyrighted material in this video qualifies as fair use for the following reasons:</p>
+                      <p>{{longStatements.purpose}}</p>
+                      <p>{{longStatements.amount}}</p>
+                      <p>{{longStatements.market}}</p>
+                    </div>      
                   </div>
                 </div>
                 <div class="tab-pane" id="appeal-pane">
@@ -165,25 +163,23 @@
                   <li>Check the acknowledgment, type your name, and click "continue."</li>
                   <li>Click through any final confirmation dialogues required to submit your appeal.</li>
                 </ol>
-                <div id="appeal-text">
-                  <script type="text/x-handlebars-template" id="appeal-temp"> 
-                    <h5>Purpose and character of use:</h5>
-                    <div id ="appeal-purpose" class="well">
-                      <p>{{purpose}}</p>
-                    </div>
-                    <h5>Nature of copyrighted work:</h5>
-                    <div id="appeal-nature" class="well">
-                      <p>{{nature}}</p>
-                    </div>
-                    <h5>The amount and substantiality of the portion used:</h5>
-                    <div id="appeal-amount" class="well">
-                      <p>{{amount}}</p>
-                    </div>
-                    <h5>The effect of the use upon the potential market for, or value of, the original work:</h5>
-                    <div id="appeal-market" class="well">
-                      <p>{{market}}</p>
-                    </div>
-                  </script>
+                <div id="appeal-text">        
+                  <h5>Purpose and character of use:</h5>
+                  <div id ="appeal-purpose" class="well">
+                    <p>{{longStatements.purpose}}</p>
+                  </div>
+                  <h5>Nature of copyrighted work:</h5>
+                  <div id="appeal-nature" class="well">
+                    <p>{{longStatements.nature}}</p>
+                  </div>
+                  <h5>The amount and substantiality of the portion used:</h5>
+                  <div id="appeal-amount" class="well">
+                    <p>{{longStatements.amount}}</p>
+                  </div>
+                  <h5>The effect of the use upon the potential market for, or value of, the original work:</h5>
+                  <div id="appeal-market" class="well">
+                    <p>{{longStatements.market}}</p>
+                  </div>
                 </div>
               </div>
               <div class="tab-pane" id="web-notice-pane">
@@ -195,13 +191,11 @@
                   <li>Cut and paste the text below into the "Why are you filing this counter-notification?" text-area box. You may optionally paste the same text in the text-area for sending a message to the copyright claimant.</li>
                   <li>Check the boxes for the required statements and click "Submit."</li>
                 </ol>
-                <div id="webform-notice-display">
-                  <script type="text/x-handlebars-template" id="webform-notice-temp">
-                    <h5>Counter-notice text:</h5>
-                    <div class="well">
-                     <p>{{text}}</p>    
-                   </div>
-                 </script>
+                <div id="webform-notice-display">      
+                  <h5>Counter-notice text:</h5>
+                  <div class="well">
+                   <p>{{webformNotice.text}}</p>    
+                 </div>  
                </div>
              </div>
              <div class="tab-pane" id="email-notice-pane">
@@ -210,55 +204,53 @@
               <p>To create an email counter-notice, please fill out the following form (your information will not be saved) and click "submit." Click the "compose email" button to open a new email to YouTube's DMCA compliance department in your default email client, and then cut and paste the provided text into the email.
                 <button type="button" class="btn btn-info btn-xs" id="show-form">Hide form</button></p> 
                 <!-- Counter-notice form -->
-                <form role="form" id="counter-notice-form" class="gray rounded">
+                <form role="form" id="counter-notice-form" class="gray rounded" ng-submit="noticeFormSubmit()">
                   <h4>Counter-notice Form</h4>
                   <p>Enter your contact information for the counter-notice:</p>
                   <div class="form-group col-sm-6">
                     <label for="legalName">Legal name</label>
-                    <input type="text" class="form-control" id="legalName" placeholder="Enter your full legal name">
+                    <input type="text" class="form-control" id="legalName" name="legalName" ng-model="userForm.legalName" placeholder="Enter your full legal name">
                   </div>
                   <div class="form-group col-sm-6">
                     <label for="emailAddress">Email address</label>
-                    <input type="email" class="form-control" id="emailAddress" placeholder="Enter your YouTube account email address">
+                    <input type="email" class="form-control" id="emailAddress" name="emailAddress" ng-model="userForm.emailAddress" placeholder="Enter your YouTube account email address">
                   </div>
                   <div class="form-group col-sm-6">
                     <label for="address">Physical Address</label>
-                    <textarea id="address" class="form-control" rows="3" placeholder="Enter your physical residential address"></textarea>
+                    <textarea id="address" class="form-control" rows="3" name="address" ng-model="userForm.address" placeholder="Enter your physical residential address"></textarea>
                   </div>
                   <div class="form-group col-sm-6">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+                    <input type="tel" class="form-control" id="phone" name="phone" ng-model="userForm.phone" placeholder="Enter your phone number">
                   </div>
                   <div class="form-group col-sm-6">
                     <label for="videoURL">Video URL</label>
-                    <input type="url" class="form-control" id="videoURL" placeholder="Enter the URL of the video">
+                    <input type="url" class="form-control" id="videoURL" name="videoURL" ng-model="userForm.videoURL" placeholder="Enter the URL of the video">
                   </div>
-                  <button type="button" class="btn btn-primary" id="submit-form">Submit</button>
+                  <button type="submit" class="btn btn-primary" id="submit-form">Submit</button>
                   <button type="reset" class="btn btn-danger">Reset</button>
                 </form>
-                <div id="email-notice-display">
-                  <script type="text/x-handlebars-template" id="email-notice-temp"> 
-                    <h5>Email counter-notice text:</h5>
-                    <p><a id="compose-email" href="mailto:copyright@youtube.com?subject=DMCA Counter-notification"><span class="glyphicon glyphicon-envelope"></span> Compose email</a></p>
-                    <div id="email-notice-text" class="well">
-                      <p>YOUTUBE DMCA COMPLAINTS DEPARTMENT:</p>
-                      <p>Please accept the following DMCA counter-notification. All required information is below.</p>
-                      <p>1. Full legal name: {{name}}</p>
-                      <p>2. Email address: {{email}}</p>
-                      <p>3. Physical address: {{address}}</p>
-                      <p>4. Telephone number: {{phone}}</p>
-                      <p>5. Video URL: {{url}}</p>
-                      <p>REASON FOR COUNTER-NOTIFICATION:</p>   
-                      <p>The use of the copyrighted material in this video qualifies as fair use for the following reasons:</p>
-                      <p>{{rationale.purpose}}</p>
-                      <p>{{rationale.amount}}</p>
-                      <p>{{rationale.market}}</p>
-                      <p>REQUIRED STATEMENTS:</p>
-                      <p>I consent to the jurisdiction of the Federal District Court for the district in which my address is located, or if my address is outside of the United States, the judicial district in which YouTube is located, and will accept service of process from the claimant.</p>
-                      <p>I swear, under penalty of perjury, that I have a good faith belief that the material was removed or disabled as a result of a mistake or misidentification of the material to be removed or disabled.</p>
-                      <p>DIGITAL SIGNATURE: {{name}}</p>
-                    </div>
-                  </script>
+                <div id="email-notice-display">        
+                  <h5>Email counter-notice text:</h5>
+                  <p><a id="compose-email" href="mailto:copyright@youtube.com?subject=DMCA Counter-notification"><span class="glyphicon glyphicon-envelope"></span> Compose email</a></p>
+                  <div id="email-notice-text" class="well">
+                    <p>YOUTUBE DMCA COMPLAINTS DEPARTMENT:</p>
+                    <p>Please accept the following DMCA counter-notification. All required information is below.</p>
+                    <p>1. Full legal name: {{user.name}}</p>
+                    <p>2. Email address: {{user.email}}</p>
+                    <p>3. Physical address: {{user.address}}</p>
+                    <p>4. Telephone number: {{user.phone}}</p>
+                    <p>5. Video URL: {{user.url}}</p>
+                    <p>REASON FOR COUNTER-NOTIFICATION:</p>   
+                    <p>The use of the copyrighted material in this video qualifies as fair use for the following reasons:</p>
+                    <p>{{longStatements.purpose}}</p>
+                    <p>{{longStatements.amount}}</p>
+                    <p>{{longStatements.market}}</p>
+                    <p>REQUIRED STATEMENTS:</p>
+                    <p>I consent to the jurisdiction of the Federal District Court for the district in which my address is located, or if my address is outside of the United States, the judicial district in which YouTube is located, and will accept service of process from the claimant.</p>
+                    <p>I swear, under penalty of perjury, that I have a good faith belief that the material was removed or disabled as a result of a mistake or misidentification of the material to be removed or disabled.</p>
+                    <p>DIGITAL SIGNATURE: {{user.name}}</p>
+                  </div>      
                 </div><!-- End email notice display -->
               </div><!-- End email notice tab pane -->
             </div><!-- End tab panes -->
@@ -270,7 +262,6 @@
     <!-- Scripts -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="globals.js"></script>
     <script src="questions.js"></script>
