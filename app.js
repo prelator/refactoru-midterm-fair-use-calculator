@@ -16,25 +16,6 @@ $(document).ready(function(){
 		}
 	});
 
-	//Question choice buttons
-	$(document).on('click', '.choice', function() {
-		var userResponse = $(this).attr('id');
-		var qName = $(this).closest('.question').attr('id'); 
-		var myQuestion = questionList.findByName(qName);
-		myQuestion.saveResponse(userResponse);
-		updateScore();
-		updateProgress();
-		if (calcProgress() !== 100){
-			renderNewQuestion();
-		} else {
-			triggerCompletion();
-		}
-	});
-
-	//Questionnaire back button
-	$(document).on('click', '.back-question', function() {
-		goBack();
-	});
 
 //========= Dispute generator tab click handlers ==============
 	//Content ID dispute tab
@@ -75,13 +56,5 @@ $(document).ready(function(){
 		toggleForm();
 	});
 
-	//=========== Actions on document ready ==================	
-
-	//Render initial template values
-	$('#question-display').html(questionTemplate(typeOfClaim));
-
-	$('#score-display').html(scoreTemplate(score));
-
-	$('#prog-info').html(progTemplate(progress));
 
 }); //End document ready
